@@ -1,0 +1,103 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+<head>
+<title> Data preprocessing</title>
+<style>
+a:link, a:visited {
+  background-color: #f44336;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: red;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer; 
+}
+
+</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<div class="container center">
+	<div class="row">
+		<div class="col-md-12">
+		 <br>
+			<h1 class="white">Data Preprocessing Automation</h1>
+			<p class="white" style="font-size:20px"> 1.Missing Values  2.Duplicate Rows  3.Outliers  4.Feature Encoding</p>
+		</div>
+	</div>
+	<script type="text/javascript">function getfile(){
+		var radioValue = $("input[name='options']:checked").val();
+    	// var name=$("#name").val()
+    	var folder=$("#folder").text()
+    	var file=$("#file").text()
+		var xxfile=$("#xxfile").text()
+		$.ajax({
+		url: "/get",
+		type: "POST",
+		data:{radioValue:radioValue,folder:folder,file:file,xxfile:xxfile},
+		}).done(function(response) 
+		{$('#preprocess_data').show();
+		$('#visual').show();
+		$('#download_text').show();
+document.getElementById('preprocess_data').href="http://localhost:5000/downloads/"+xxfile});}</script>
+	
+	<form method="post" action="/" enctype="multipart/form-data" accept-charset="utf-8">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 center">
+				<div class="btn-container">
+					<!--the three icons: default, ok file (img), error file (not an img)-->
+					<h1 style="padding-top:20px; font-size:5em;"><i class="fa fa-file-o"></i></h1>
+					<!--this field changes dinamically displaying the filename we are trying to upload-->
+					<p id="namefile" style="font-size:20px; font-weight: bold;">Please upload a file (.csv)</p>
+					<!--our custom btn which which stays under the actual one-->
+					<button type="button" id="btnup" class="btn btn-primary btn-lg">Browse for your file!</button>
+					<!--this is the actual file input, is set with opacity=0 beacause we wanna see our custom one-->
+					<input type="file" name="file" accept=".csv" required />
+					<input type=submit value=Upload class="custom-file-upload" style="font-weight: bold;">
+				</div>
+			</div>
+		</div>
+			<!--additional fields-->
+		<div class="row">			
+			<div class="col-md-12">
+				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+				
+			</div>
+		</div>
+		
+		<div class="row">			
+			<div class="col-md-12">
+			 
+			</div>
+		</div>
+		</form>
+		<form method="post" action="/" enctype="multipart/form-data" accept-charset="utf-8">
+		<div class="row">			
+			<div class="col-md-12">
+			<div id ="folder" style="display: none;">{{fo}} </div>
+			<div id ="file" style="display: none;">{{file}} </div>
+			<div id ="xxfile" style="display: none;">{{xxfile}} </div>
+			<p class="white" style="font-size:20px"> List of Columns in the Dataset:</p>
+			<p class="white" style="font-size:20px">{%for i in result%} 
+			 <input type="radio" name="options" id={{i}} value={{i}} required> {{i}} <br>			
+			{%endfor%}</p>
+			<p class="white" style="font-size:20px"> Select Dependent Column from the list above and click Submit: <button type="button" onclick="getfile()" class="custom-file-upload" style="font-weight: bold;">Submit</button>
+		</div>
+		<div class="row">			
+			<div class="col-md-12">
+			<p style="display: none;" id="download_text" class="white" style="font-size:20px">Download Report + Preprocessed Data</p>
+			<a style="display: none;" id= "preprocess_data" href="">Download</a>
+			 <p><a style="display: none;" id= "visual"  href="{{ url_for('visualize') }}">Check out this cool charts!</a></p>
+			</div>
+		</div>
+	</form>
+</div>
