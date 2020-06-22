@@ -1,0 +1,9 @@
+Go to 2994273_Karthikeyan_Parandaman folder/env/Scripts/activate
+
+pip install flask
+
+pip install -r requirements.txt
+
+flask run 
+
+localhost:5000
